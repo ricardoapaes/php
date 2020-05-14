@@ -1,0 +1,60 @@
+#!/bin/bash
+
+echo "Configurando PHP..."
+
+# PHP-FPM PM
+if [ ! -n "$PHP_PM" ]; then
+	PHP_PM="ondemand";
+fi;
+
+echo -e "\ninclude=${PHP_CONFIG_PATH}php-fpm-${PHP_PM}.conf" >> ${PHP_FPM_CONFIG};
+
+# PHP-FPM USER
+if [ -n "$PHP_USER" ]; then
+	echo "Configurando usuário..."
+	sed -i "s/user=www-data/user=${PHP_USER}/g" ${PHP_FPM_CONFIG};
+fi;
+
+# PHP-FPM GROUP
+if [ -n "$PHP_GROUP" ]; then
+	echo "Configurando grupo..."
+	sed -i "s/group=www-data/group=${PHP_GROUP}/g" ${PHP_FPM_CONFIG};
+fi;
+
+if [ -n "$PHP_NAME" ]; then
+	echo "Configurando nome: ${PHP_NAME}";
+	sed -i '1d' ${PHP_FPM_CONFIG};
+	sed -i "1s/^/\[${PHP_NAME}\]\n/" ${PHP_FPM_CONFIG};
+fi;
+
+if [ -n "$XDEBUG" ]; then
+	if [ ! -n "$XDEBUG_HOST" ]; then
+		XDEBUG_HOST=host.docker.internal;
+	fi;
+	
+	echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> ${CONFIG_XDEBUG}
+    echo "xdebug.remote_enable=1 " >> ${CONFIG_XDEBUG}
+    echo "xdebug.remote_host=${XDEBUG_HOST}" >> ${CONFIG_XDEBUG}
+    echo "xdebug.remote_log=/tmp/xdebug.log" >> ${CONFIG_XDEBUG}
+    echo "xdebug.remote_autostart=false " >> ${CONFIG_XDEBUG}
+    echo "xdebug.idekey=${PHP_NAME}" >> ${CONFIG_XDEBUG}  
+
+    if [ -n "$XDEBUG_PROFILER" ]; then
+	    echo "xdebug.profiler_enable = 1" >> ${CONFIG_XDEBUG};
+		echo "xdebug.profiler_output_dir=${PATH_XDEBUG_PROFILE}" >> ${CONFIG_XDEBUG}
+	fi;
+
+	cat ${CONFIG_XDEBUG}
+fi;
+
+if [ -n "$OPCACHE" ]; then
+	sed -i "s/opcache.validate_timestamps=1/opcache.validate_timestamps=0/g" ${PHP_INI_OPCACHE};
+	cat ${PHP_INI_OPCACHE};
+fi;
+
+if [ -n "$PHP_SLOWLOG" ]; then
+	echo "slowlog=/dev/stderr" >> ${PHP_FPM_CONFIG}
+	echo "request_slowlog_timeout=5s" >> ${PHP_FPM_CONFIG}
+fi;
+
+cat ${PHP_FPM_CONFIG};

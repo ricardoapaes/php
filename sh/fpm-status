@@ -1,0 +1,4 @@
+SCRIPT_NAME=/fpm_status \
+SCRIPT_FILENAME=/fpm_status \
+REQUEST_METHOD=GET \
+cgi-fcgi -bind -connect 127.0.0.1:9000

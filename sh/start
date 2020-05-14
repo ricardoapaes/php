@@ -1,0 +1,3 @@
+#!/bin/bash
+configure-php;
+sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf
