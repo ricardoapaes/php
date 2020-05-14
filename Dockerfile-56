@@ -66,7 +66,6 @@ COPY sh/ /usr/local/bin/
 RUN mv /usr/local/bin/install-ioncube-56 /usr/local/bin/install-ioncube
 RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/install-ioncube \
- && chmod +x /usr/local/bin/init-git \
  && chmod +x /usr/local/bin/configure-php \
  && chmod +x /usr/local/bin/fpm-status \
  && chmod +x /usr/local/bin/start
