@@ -22,6 +22,12 @@ jobs:
         run: |
           docker-compose --file docker-compose.test.yml up --build -d
 
+          sleep 2
+
+          docker ps -a
+
+          docker logs php_app
+
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 

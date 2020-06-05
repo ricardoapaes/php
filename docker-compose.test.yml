@@ -1,14 +1,13 @@
 version: '3'
 networks: 
-    lemp:
+    php:
         driver: bridge
 
 services:
 
     app:
         build: .
-        image: likesistemas/php:latest
-        container_name: app
+        container_name: php_app
         environment:
             - PHP_NAME=lemp
             - PHP_PM=dynamic
@@ -20,13 +19,13 @@ services:
         volumes:
             - ./www/:/var/www/public/
         networks:
-            - lemp
+            - php
 
     nginx:
         image: likesistemas/nginx:latest
-        container_name: nginx
+        container_name: php_nginx
         environment:
-            - HOST_PHP=app
+            - HOST_PHP=php_app
             - PORTA_PHP=9000
         ports:
             - 80:80
@@ -37,4 +36,4 @@ services:
         depends_on:
             - app
         networks:
-            - lemp
+            - php
