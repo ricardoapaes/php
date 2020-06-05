@@ -1,5 +1,4 @@
 FROM php:7.3-fpm
-MAINTAINER Like Sistemas <dev@likesistemas.com.br>
 
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
@@ -28,6 +27,15 @@ ENV CONFIG_GLOBAL_XDEBUG="${PHP_GLOBAL_CONFIG_PATH}docker-php-ext-xdebug.ini"
 ENV CONFIG_XDEBUG="${PHP_CONFIG_PATH}xdebug.ini"
 ENV PATH_XDEBUG_PROFILE="/var/www/xdebug/"
 ENV PHP_INI_OPCACHE="${PHP_CONFIG_PATH}opcache.ini"
+
+# PHP PM (512 Mb memory / 60 = 8)
+ENV PHP_PM=dynamic
+ENV PHP_PM_MAX_CHILDREN=8
+ENV PHP_PM_START_SERVERS=2
+ENV PHP_PM_MIN_SPARE_SERVERS=4
+ENV PHP_PM_MAX_SPARE_SERVERS=4
+ENV PHP_PM_MAX_REQUESTS=500
+ENV PHP_PM_PROCESS_IDLE_TIMEOUT=300
 
 # INSTALANDO MEMCACHED
 RUN apt-get update && apt-get install -y libmemcached-dev \
@@ -80,7 +88,7 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/fpm-status \
  && chmod +x /usr/local/bin/start
 
-COPY index.php $PUBLIC_HTML/
+COPY www/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
 RUN chown www-data:www-data $PUBLIC_HTML
 
