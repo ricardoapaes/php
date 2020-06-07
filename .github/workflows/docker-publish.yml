@@ -24,9 +24,10 @@ jobs:
 
           docker exec php_app install-composer
           docker exec php_app sudo composer install
-          docker exec php_app vendor/bin/phinx seed:run
 
-          sleep 2
+          sleep 10
+
+          docker exec php_app vendor/bin/phinx seed:run
 
           docker ps -a
 
