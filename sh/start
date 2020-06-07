@@ -1,3 +1,26 @@
 #!/bin/bash
+
+start_php() {
+    if [ -n "$DB_MIGRATE" ]; then
+        migrate-db
+    fi
+
+    echo "Executando command...";
+    sudo exec-cmd "$@"
+
+    echo "Iniciando PHP...";
+    sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf;
+}
+
 configure-php;
-sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf
+
+if [ -n "$DB_HOST" ]; then
+    echo "Aguardando banco de dados... ${DB_HOST}:${DB_PORT}";
+
+	dockerize \
+		-wait tcp://${DB_HOST}:${DB_PORT} \
+		-timeout 30s \
+	&& start_php "$@"
+else
+	start_php "$@"
+fi

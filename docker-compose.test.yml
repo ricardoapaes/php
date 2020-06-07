@@ -8,6 +8,7 @@ services:
     app:
         build: .
         container_name: php_app
+        command: ./vendor/bin/phinx migrate -vvv
         environment:
             - PHP_NAME=lemp
             - PHP_PM=dynamic
@@ -16,8 +17,24 @@ services:
             - PHP_PM_MIN_SPARE_SERVERS=1
             - PHP_PM_MAX_SPARE_SERVERS=1
             - PHP_PM_MAX_REQUESTS=500
+            - DB_HOST=mysql
         volumes:
             - ./www/:/var/www/public/
+        networks:
+            - php
+        links:
+            - mysql
+        depends_on:
+            - mysql
+
+    mysql:
+        image: mysql:5.5
+        command: --innodb-use-native-aio=0
+        volumes:
+            - mysql-data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+            - MYSQL_DATABASE=php
         networks:
             - php
 
@@ -37,3 +54,6 @@ services:
             - app
         networks:
             - php
+
+volumes:
+    mysql-data:
