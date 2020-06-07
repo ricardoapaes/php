@@ -22,6 +22,8 @@ jobs:
         run: |
           docker-compose --file docker-compose.test.yml up --build -d
 
+          sleep 10
+
           docker exec php_app install-composer
           docker exec php_app sudo composer install
 
