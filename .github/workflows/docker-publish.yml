@@ -27,11 +27,11 @@ jobs:
 
           sleep 10
 
-          docker exec php_app vendor/bin/phinx seed:run
-
           docker ps -a
 
           docker logs php_app
+
+          docker exec php_app vendor/bin/phinx seed:run
 
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
