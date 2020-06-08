@@ -11,6 +11,9 @@ docker run -v ${PWD}:/var/www/public/ -p 9000:9000 likesistemas/php:latest
 PHP_NAME: Nome do pool do PHP-FPM (opcional)
 PHP_USER: Usuário que será usado no PHP-FPM (opcional)
 PHP_GROUP: Grupo que será usado no PHP-FPM (opcional)
+DB_HOST: Aguarda o host do banco de dados iniciar, timaout 30 segundos. (opcional)
+DB_PORT: Porta do banco de dados. (opcional, padrão 3306)
+DB_MIGRATE: Informar true para fazer executar depois da checagem do banco de dados (opcional)
 ```
 
 ### Dynamic
