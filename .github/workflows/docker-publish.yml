@@ -20,7 +20,7 @@ jobs:
 
       - name: Prepare code
         run: |
-          docker run -it -v ${PWD}/www/:/app composer install
+          docker run -v ${PWD}/www/:/app composer install
 
       - name: Run tests
         run: |
