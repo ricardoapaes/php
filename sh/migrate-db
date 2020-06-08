@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -f vendor/bin/phinx ]; then
+	vendor/bin/phinx migrate -vvv;
+fi;
+
+if [ -f artisan ]; then
+    php artisan migrate;
+fi;

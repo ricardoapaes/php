@@ -77,8 +77,16 @@ RUN pecl install apcu \
 RUN docker-php-ext-install opcache \
  && ln -s "${PHP_CONFIG_PATH}opcache.ini" "${PHP_GLOBAL_CONFIG_PATH}00-opcache.ini"
 
+# INSTALANDO DOCKERIZE
+ENV DOCKERIZE_VERSION v0.6.1
+RUN apt-get update && apt-get install -y wget \
+    && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 ENV TZ="America/Fortaleza"
 ENV PUBLIC_HTML="/var/www/public"
+ENV DB_PORT=3306
 
 COPY sh/ /usr/local/bin/
 RUN rm /usr/local/bin/install-ioncube-56
@@ -86,7 +94,10 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/install-ioncube \
  && chmod +x /usr/local/bin/configure-php \
  && chmod +x /usr/local/bin/fpm-status \
- && chmod +x /usr/local/bin/start
+ && chmod +x /usr/local/bin/start \
+ && chmod +x /usr/local/bin/migrate-db \
+ && chmod +x /usr/local/bin/exec-cmd \
+ && chmod +x /usr/local/bin/entrypoint-php
 
 COPY www/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
@@ -102,4 +113,4 @@ EXPOSE 9000
 
 HEALTHCHECK CMD fpm-status || exit 1
 
-CMD /usr/local/bin/start
+ENTRYPOINT ["entrypoint-php"]
