@@ -1,10 +1,8 @@
 #!/bin/bash
 
-if [ -n "$PHP_NAME" ]; then
-	echo "Configurando nome: ${PHP_NAME}";
-	sed -i '1d' ${PHP_FPM_CONFIG};
-	sed -i "1s/^/\[${PHP_NAME}\]\n/" ${PHP_FPM_CONFIG};
-fi;
+echo "Configurando nome: ${PHP_NAME}";
+sed -i '1d' ${PHP_FPM_CONFIG};
+sed -i "1s/^/\[${PHP_NAME}\]\n/" ${PHP_FPM_CONFIG};
 
 echo "Configurando PHP..."
 
