@@ -1,0 +1,23 @@
+#!/bin/bash
+
+sudo chown www-data:www-data .
+
+if [ ! -f composer.json ]; then
+    sudo touch auth.json && sudo echo "{}" >> auth.json
+fi
+
+if [ ! -f vendor ]; then
+    sudo mkdir vendor
+fi
+
+sudo chown -Rf www-data:www-data composer.json composer.lock auth.json vendor
+
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "Configurando github..."
+    composer config github-oauth.github.com $GITHUB_TOKEN
+fi
+
+if [ -n "$CODECOMMIT_HOST" ]; then
+    echo "Configurando codecommit..."
+    composer config http-basic.${CODECOMMIT_HOST} ${CODECOMMIT_USER} ${CODECOMMIT_PASSWORD}
+fi

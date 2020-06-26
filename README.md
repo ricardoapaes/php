@@ -14,6 +14,9 @@ PHP_GROUP: Grupo que será usado no PHP-FPM (opcional)
 DB_HOST: Aguarda o host do banco de dados iniciar, timaout 30 segundos. (opcional)
 DB_PORT: Porta do banco de dados. (opcional, padrão 3306)
 DB_MIGRATE: Informar true para fazer executar depois da checagem do banco de dados (opcional)
+INSTALL_COMPOSER: Instala o composer no container antes de iniciar (opcional, boolean)
+COMPOSER_INSTALL: Executa o comando do composer install ao iniciar (opcional, boolean)
+COMPOSER_INSTALL_PARAMS: Parametros que serão passados ao composer install (opcional, padrão: -a --no-dev)
 ```
 
 ### Dynamic

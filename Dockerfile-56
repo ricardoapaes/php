@@ -34,6 +34,7 @@ ENV PHP_PM_MIN_SPARE_SERVERS=4
 ENV PHP_PM_MAX_SPARE_SERVERS=4
 ENV PHP_PM_MAX_REQUESTS=500
 ENV PHP_PM_PROCESS_IDLE_TIMEOUT=300
+ENV COMPOSER_INSTALL_PARAMS="-a --no-dev"
 
 # INSTALANDO MEMCACHED
 RUN apt-get update && apt-get install -y libmemcached-dev \
@@ -76,6 +77,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/install-ioncube \
  && chmod +x /usr/local/bin/configure-php \
  && chmod +x /usr/local/bin/fpm-status \
+ && chmod +x /usr/local/bin/composer-install \
+ && chmod +x /usr/local/bin/composer-config \
  && chmod +x /usr/local/bin/start
 
 COPY www/info.php $PUBLIC_HTML/index.php

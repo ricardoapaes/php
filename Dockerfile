@@ -37,6 +37,7 @@ ENV PHP_PM_MIN_SPARE_SERVERS=2
 ENV PHP_PM_MAX_SPARE_SERVERS=4
 ENV PHP_PM_MAX_REQUESTS=500
 ENV PHP_PM_PROCESS_IDLE_TIMEOUT=300
+ENV COMPOSER_INSTALL_PARAMS="-a --no-dev"
 
 # INSTALANDO MEMCACHED
 RUN apt-get update && apt-get install -y libmemcached-dev \
@@ -97,6 +98,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/fpm-status \
  && chmod +x /usr/local/bin/start \
  && chmod +x /usr/local/bin/migrate-db \
+ && chmod +x /usr/local/bin/composer-install \
+ && chmod +x /usr/local/bin/composer-config \
  && chmod +x /usr/local/bin/exec-cmd \
  && chmod +x /usr/local/bin/entrypoint-php
 
