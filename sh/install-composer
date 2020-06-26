@@ -1,3 +1,6 @@
 #!/bin/bash
+sudo apt update && sudo apt install -y git unzip
+sudo rm -rf /var/lib/apt/lists/*
+
 sudo curl -sS https://getcomposer.org/installer | \
 sudo php -- --install-dir=/usr/local/bin --filename=composer

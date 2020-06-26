@@ -1,6 +1,15 @@
 #!/bin/bash
 
 start_php() {
+    if [ -n "$INSTALL_COMPOSER" ]; then
+        install-composer
+        composer-config
+    fi
+    
+    if [ -n "$COMPOSER_INSTALL" ]; then
+        composer-install ${COMPOSER_INSTALL_PARAMS}
+    fi
+
     if [ -n "$DB_MIGRATE" ]; then
         migrate-db
     fi

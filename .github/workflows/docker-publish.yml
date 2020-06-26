@@ -20,13 +20,17 @@ jobs:
 
       - name: Prepare code
         run: |
-          docker run -v ${PWD}/www/:/app composer install
+          touch docker-compose.env
+          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> docker-compose.env
+          echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> docker-compose.env
+          echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> docker-compose.env
+          echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> docker-compose.env
 
       - name: Run tests
         run: |
-          docker-compose --file docker-compose.test.yml up --build -d
+          docker-compose up --build -d
 
-          sleep 10
+          docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 30s
 
           docker ps -a
 
