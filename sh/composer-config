@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if [ ! -f auth.json ]; then
-    sudo touch auth.json && sudo echo "{}" >> auth.json
-fi
-
-if [ ! -d vendor ]; then
-    sudo mkdir vendor
-fi
-
 if [ -n "$GITHUB_TOKEN" ]; then
     echo "Configurando github..."
     sudo composer config github-oauth.github.com $GITHUB_TOKEN
