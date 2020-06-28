@@ -100,6 +100,7 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/migrate-db \
  && chmod +x /usr/local/bin/composer-install \
  && chmod +x /usr/local/bin/composer-config \
+ && chmod +x /usr/local/bin/start-php \
  && chmod +x /usr/local/bin/exec-cmd \
  && chmod +x /usr/local/bin/entrypoint-php
 

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -n "$DB_MIGRATE" ]; then
+    migrate-db
+fi 
+
+if [ -n "${1}" ]; then
+    echo "Executando command...";
+    sudo exec-cmd "$@"
+fi
+
+echo "Iniciando PHP...";
+sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf;

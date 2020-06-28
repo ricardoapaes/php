@@ -8,8 +8,9 @@ services:
 
     app:
         build: .
+        image: likesistemas/php:dev
         container_name: php_app
-        command: ./vendor/bin/phinx migrate -vvv
+        command: vendor/bin/phinx seed:run
         environment:
             - PHP_NAME=lemp
             - PHP_PM=dynamic
@@ -21,6 +22,7 @@ services:
             - DB_HOST=mysql
             - INSTALL_COMPOSER=true
             - COMPOSER_INSTALL=true
+            - DB_MIGRATE=true
         env_file:
             - ./docker-compose.env
         volumes:
@@ -36,7 +38,7 @@ services:
         image: mysql:5.5
         command: --innodb-use-native-aio=0
         volumes:
-            - mysql-data:/var/lib/mysql
+            - php-mysql-data:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=123456
             - MYSQL_DATABASE=php
@@ -61,4 +63,4 @@ services:
             - php
 
 volumes:
-    mysql-data:
+    php-mysql-data:
