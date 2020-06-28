@@ -4,7 +4,10 @@ configure-php;
 
 if [ -n "$INSTALL_COMPOSER" ]; then
     install-composer
-    composer-config
+fi
+
+if [ -f composer.json ]; then
+	composer-config
 fi
 
 if [ -n "$COMPOSER_INSTALL" ]; then

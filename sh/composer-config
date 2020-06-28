@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -f composer.json ]; then
+if [ ! -f auth.json ]; then
     sudo touch auth.json && sudo echo "{}" >> auth.json
 fi
 
