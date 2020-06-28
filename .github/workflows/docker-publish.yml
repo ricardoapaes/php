@@ -30,13 +30,11 @@ jobs:
         run: |
           docker-compose up --build -d
 
-          docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 30s
+          docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s
 
           docker ps -a
 
           docker logs php_app
-
-          docker exec php_app vendor/bin/phinx seed:run
 
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";

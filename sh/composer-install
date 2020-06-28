@@ -1,5 +1,6 @@
 #!/bin/bash
 
 if [ -f composer.json ]; then
+    echo "Rodando composer com os comandos '$@'..."
     sudo composer install "$@"
 fi
