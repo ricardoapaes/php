@@ -9,5 +9,9 @@ if [ -n "${1}" ]; then
     sudo exec-cmd "$@"
 fi
 
+if [ -f auth.json ]; then
+  sudo rm -f auth.json
+fi;
+
 echo "Iniciando PHP...";
 sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf;
