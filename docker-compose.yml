@@ -26,7 +26,7 @@ services:
         env_file:
             - ./docker-compose.env
         volumes:
-            - ./www/:/var/www/public/
+            - ./www/:/var/www/
         networks:
             - php
         links:

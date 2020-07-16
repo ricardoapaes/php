@@ -1,11 +1,15 @@
 {
-    "repositories": [
-        {"type": "composer", "url": "https://composer.likesistemas.com.br/"}
-    ],
-    "require": {
-        "robmorgan/phinx": "^0.12.1",
-        "symfony/yaml": "^5.1",
-        "like/gateway-pagamento": "^1.0",
-        "like/exception": "^1.2"
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.likesistemas.com.br/"
     }
+  ],
+  "require": {
+    "robmorgan/phinx": "^0.12.1",
+    "symfony/yaml": "^5.1",
+    "like/gateway-pagamento": "^1.0",
+    "like/exception": "^1.2",
+    "ext-pdo": "*"
+  }
 }

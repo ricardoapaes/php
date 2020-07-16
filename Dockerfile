@@ -20,12 +20,12 @@ RUN docker-php-ext-install pdo pdo_mysql zip gd intl mbstring bcmath sockets ico
 # PHP VARIABLES
 ENV PHP_GLOBAL_PATH="/usr/local/etc/php/"
 ENV PHP_GLOBAL_CONFIG_PATH="${PHP_GLOBAL_PATH}conf.d/"
-ENV PHP_CONFIG_PATH="/var/www/php/config/"
+ENV PHP_CONFIG_PATH="/var/php/config/"
 ENV PHP_FPM_CONFIG="${PHP_CONFIG_PATH}php-fpm.conf"
 ENV PHP_INI_CONFIG="${PHP_CONFIG_PATH}php.ini"
 ENV CONFIG_GLOBAL_XDEBUG="${PHP_GLOBAL_CONFIG_PATH}docker-php-ext-xdebug.ini"
 ENV CONFIG_XDEBUG="${PHP_CONFIG_PATH}xdebug.ini"
-ENV PATH_XDEBUG_PROFILE="/var/www/xdebug/"
+ENV PATH_XDEBUG_PROFILE="/var/xdebug/"
 ENV PHP_INI_OPCACHE="${PHP_CONFIG_PATH}opcache.ini"
 
 # PHP PM (512 Mb memory / 60 = 8)
@@ -46,22 +46,16 @@ RUN apt-get update && apt-get install -y libmemcached-dev \
 
 # CONFIGURANDO TIMEZONE
 RUN pecl install timezonedb \
-    && echo "extension=timezonedb.so" > ${PHP_GLOBAL_CONFIG_PATH}00_timezone.ini
+ && echo "extension=timezonedb.so" > ${PHP_GLOBAL_CONFIG_PATH}00_timezone.ini
 
 # INSTALANDO SUPERVISOR
 RUN apt-get update && apt-get install -y supervisor
 
-# INSTALANDO SUDO
-RUN apt-get update && apt-get install -y sudo
-RUN echo "www-data:www-data" | chpasswd && adduser www-data sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
 # CONFIGURAÇÃO PHP
-COPY config/ /var/www/php/config/
+COPY config/ ${PHP_CONFIG_PATH}
 RUN ln -s "${PHP_GLOBAL_PATH}php.ini-production" "${PHP_GLOBAL_PATH}php.ini" \ 
- && ln -s "${PHP_CONFIG_PATH}php.ini" "${PHP_GLOBAL_CONFIG_PATH}00-docker-config.ini" \ 
- && mkdir /var/www/php/log/ \
- && chown -Rf www-data:www-data /var/www/php/
+ && ln -s "${PHP_CONFIG_PATH}php.ini" "${PHP_GLOBAL_CONFIG_PATH}00-docker-config.ini" \
+ && chown -Rf www-data:www-data ${PHP_CONFIG_PATH}
 
 # INSTALANDO XDEBUG
 RUN pecl install xdebug \
@@ -82,9 +76,9 @@ RUN docker-php-ext-install opcache \
 # INSTALANDO DOCKERIZE
 ENV DOCKERIZE_VERSION v0.6.1
 RUN apt-get update && apt-get install -y wget \
-    && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+ && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+ && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+ && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 ENV TZ="America/Fortaleza"
 ENV PUBLIC_HTML="/var/www/public"
