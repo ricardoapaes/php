@@ -6,11 +6,10 @@
     }
   ],
   "require": {
-    "robmorgan/phinx": "^0.12.1",
-    "symfony/yaml": "^5.1",
-    "like/gateway-pagamento": "^1.0",
-    "like/exception": "^1.2",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "robmorgan/phinx": "^0.11.7",
+    "symfony/yaml": "^3.4",
+    "like/exception": "^1.2"
   },
   "scripts": {
     "migrate": "phinx migrate",

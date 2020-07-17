@@ -1,0 +1,7 @@
+#!/bin/bash
+pecl install $XDEBUG_PACKAGE
+docker-php-ext-enable xdebug
+rm ${CONFIG_GLOBAL_XDEBUG}
+touch ${CONFIG_XDEBUG}
+chown www-data:www-data ${CONFIG_XDEBUG}
+ln -s ${CONFIG_XDEBUG} ${CONFIG_GLOBAL_XDEBUG}

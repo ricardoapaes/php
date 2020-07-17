@@ -3,7 +3,7 @@
 Um container com PHP-FPM, para utilizar use o seguinte comando:
 
 ```
-docker run -v ${PWD}:/var/www/public/ -p 9000:9000 likesistemas/php:latest
+docker run -v ${PWD}:/var/www/ -p 9000:9000 likesistemas/php:latest
 ```
 
 ## Environment Vars

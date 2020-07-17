@@ -2,6 +2,6 @@
 cd /tmp 
 curl -o ioncube.tar.gz http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 tar -xvvzf ioncube.tar.gz
-mv ioncube/ioncube_loader_lin_7.3.so /usr/local/lib/php/extensions/*
-rm -Rf ioncube.tar.gz ioncube
-sudo cho "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/ioncube_loader_lin_7.3.so" > ${PHP_GLOBAL_CONFIG_PATH}01_docker-php-ext-ioncube_loader_lin_7.3.ini
+mv "ioncube/ioncube_loader_lin_${IONCUBE_PHP_VERSION}.so" /usr/local/lib/php/extensions/*
+rm -Rf ioncube.tar.gz ioncube/
+echo "zend_extension=/usr/local/lib/php/extensions/${IONCUBE_EXT_FOLDER}/ioncube_loader_lin_${IONCUBE_PHP_VERSION}.so" > "${PHP_GLOBAL_CONFIG_PATH}01_docker-php-ext-ioncube_loader_lin_${IONCUBE_PHP_VERSION}.ini"

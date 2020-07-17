@@ -1,15 +1,17 @@
 version: '3.5'
 networks:
   php:
-    name: php
+    name: php56
     driver: bridge
 
 services:
 
   app:
-    build: .
-    image: likesistemas/php:dev
-    container_name: php_app
+    build:
+      context: .
+      dockerfile: Dockerfile-56
+    image: likesistemas/php:56-dev
+    container_name: php56_app
     command: composer seed
     environment:
       - PHP_NAME=lemp
@@ -26,7 +28,7 @@ services:
     env_file:
       - ./docker-compose.env
     volumes:
-      - ./www/:/var/www/
+      - ./www56/:/var/www/
     networks:
       - php
     links:
@@ -38,7 +40,7 @@ services:
     image: mysql:5.5
     command: --innodb-use-native-aio=0
     volumes:
-      - php-mysql-data:/var/lib/mysql
+      - mysql56-data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=php
@@ -47,16 +49,16 @@ services:
 
   nginx:
     image: likesistemas/nginx:latest
-    container_name: php_nginx
+    container_name: php56_nginx
     restart: on-failure
     environment:
-      - HOST_PHP=php_app
+      - HOST_PHP=app
       - PORTA_PHP=9000
       - INDEX_FILE=index.php
     ports:
       - 80:80
     volumes:
-      - ./www/:/var/www/
+      - ./www/:/var/www/public/
     links:
       - app
     depends_on:
@@ -65,4 +67,4 @@ services:
       - php
 
 volumes:
-  php-mysql-data:
+  mysql56-data:

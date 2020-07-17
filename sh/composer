@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ ! -x "$(command -v xcomposer)" ]; then
+    echo "Composer is not installed.";
+    exit 1;
+fi
+
+cd ${COMPOSER_FOLDER}/
+
+if [ ! -f composer.json ]; then
+    echo "File composer.json not found in '${COMPOSER_FOLDER}'.";
+    exit 1;
+fi
+
+xcomposer "$@"

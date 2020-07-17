@@ -52,14 +52,14 @@ if [ -n "$XDEBUG" ]; then
 	fi;
 	
 	echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> ${CONFIG_XDEBUG}
-    echo "xdebug.remote_enable=1 " >> ${CONFIG_XDEBUG}
-    echo "xdebug.remote_host=${XDEBUG_HOST}" >> ${CONFIG_XDEBUG}
-    echo "xdebug.remote_log=/tmp/xdebug.log" >> ${CONFIG_XDEBUG}
-    echo "xdebug.remote_autostart=false " >> ${CONFIG_XDEBUG}
-    echo "xdebug.idekey=${PHP_NAME}" >> ${CONFIG_XDEBUG}  
+  echo "xdebug.remote_enable=1 " >> ${CONFIG_XDEBUG}
+  echo "xdebug.remote_host=${XDEBUG_HOST}" >> ${CONFIG_XDEBUG}
+  echo "xdebug.remote_log=/tmp/xdebug.log" >> ${CONFIG_XDEBUG}
+  echo "xdebug.remote_autostart=false " >> ${CONFIG_XDEBUG}
+  echo "xdebug.idekey=${PHP_NAME}" >> ${CONFIG_XDEBUG}
 
-    if [ -n "$XDEBUG_PROFILER" ]; then
-	    echo "xdebug.profiler_enable = 1" >> ${CONFIG_XDEBUG};
+  if [ -n "$XDEBUG_PROFILER" ]; then
+    echo "xdebug.profiler_enable = 1" >> ${CONFIG_XDEBUG};
 		echo "xdebug.profiler_output_dir=${PATH_XDEBUG_PROFILE}" >> ${CONFIG_XDEBUG}
 	fi;
 
