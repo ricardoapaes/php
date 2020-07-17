@@ -85,6 +85,7 @@ ENV IONCUBE_EXT_FOLDER=no-debug-non-zts-20180731
 COPY sh/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/install-ioncube \
+ && chmod +x /usr/local/bin/install-xdebug \
  && chmod +x /usr/local/bin/configure-php \
  && chmod +x /usr/local/bin/fpm-status \
  && chmod +x /usr/local/bin/start \
