@@ -1,17 +1,24 @@
 #!/bin/bash
 
-configure-php;
-
-if [ -n "$INSTALL_COMPOSER" ]; then
-    install-composer
+if [ ! -f "${COMPOSER_FOLDER}/composer.json" ]; then
+  COMPOSER_FOLDER=${WWW}
 fi
 
-if [ -f composer.json ]; then
+echo "COMPOSER_FOLDER: ${COMPOSER_FOLDER}"
+export ${COMPOSER_FOLDER}
+
+configure-php
+
+if [ -n "$INSTALL_COMPOSER" ]; then
+  install-composer
+fi
+
+if [ -x "$(command -v xcomposer)" ]; then
 	composer-config
 fi
 
 if [ -n "$COMPOSER_INSTALL" ]; then
-    composer-install ${COMPOSER_INSTALL_PARAMS}
+  composer-install ${COMPOSER_INSTALL_PARAMS}
 fi
 
 if [ -n "$DB_HOST" ]; then

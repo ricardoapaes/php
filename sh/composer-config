@@ -2,10 +2,10 @@
 
 if [ -n "$GITHUB_TOKEN" ]; then
     echo "Configurando github..."
-    sudo composer config github-oauth.github.com $GITHUB_TOKEN
+    xcomposer config -g github-oauth.github.com ${GITHUB_TOKEN}
 fi
 
-if [ -n "$CODECOMMIT_HOST" ]; then
+if [ -n "$CODECOMMIT_USER" ]; then
     echo "Configurando codecommit..."
-    sudo composer config http-basic.${CODECOMMIT_HOST} ${CODECOMMIT_USER} ${CODECOMMIT_PASSWORD}
+    xcomposer config -g http-basic.${CODECOMMIT_HOST} ${CODECOMMIT_USER} ${CODECOMMIT_PASSWORD}
 fi

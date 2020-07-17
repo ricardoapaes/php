@@ -57,14 +57,6 @@ RUN ln -s "${PHP_GLOBAL_PATH}php.ini-production" "${PHP_GLOBAL_PATH}php.ini" \
  && ln -s "${PHP_CONFIG_PATH}php.ini" "${PHP_GLOBAL_CONFIG_PATH}00-docker-config.ini" \
  && chown -Rf www-data:www-data ${PHP_CONFIG_PATH}
 
-# INSTALANDO XDEBUG
-RUN pecl install xdebug \
- && docker-php-ext-enable xdebug \
- && rm ${CONFIG_GLOBAL_XDEBUG} \ 
- && touch ${CONFIG_XDEBUG} \
- && chown www-data:www-data ${CONFIG_XDEBUG} \
- && ln -s ${CONFIG_XDEBUG} ${CONFIG_GLOBAL_XDEBUG}
-
 # INSTALANDO APCU
 RUN pecl install apcu \
  && docker-php-ext-enable apcu
@@ -80,12 +72,17 @@ RUN apt-get update && apt-get install -y wget \
  && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
  && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-ENV TZ="America/Fortaleza"
-ENV PUBLIC_HTML="/var/www/public"
+ENV TZ=America/Fortaleza
+ENV WWW=/var/www
+ENV PUBLIC_HTML="${WWW}/public"
+ENV COMPOSER_FOLDER="${PUBLIC_HTML}"
 ENV DB_PORT=3306
 
+ENV XDEBUG_PACKAGE=xdebug
+ENV IONCUBE_PHP_VERSION=7.3
+ENV IONCUBE_EXT_FOLDER=no-debug-non-zts-20180731
+
 COPY sh/ /usr/local/bin/
-RUN rm /usr/local/bin/install-ioncube-56
 RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/install-ioncube \
  && chmod +x /usr/local/bin/configure-php \
@@ -96,15 +93,14 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/composer-config \
  && chmod +x /usr/local/bin/start-php \
  && chmod +x /usr/local/bin/exec-cmd \
- && chmod +x /usr/local/bin/entrypoint-php
+ && chmod +x /usr/local/bin/entrypoint-php \
+ && chmod +x /usr/local/bin/composer
 
 COPY www/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
 RUN chown www-data:www-data $PUBLIC_HTML
 
 RUN rm -rf /var/lib/apt/lists/*
-
-USER www-data
 
 WORKDIR $PUBLIC_HTML
 

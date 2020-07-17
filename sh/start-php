@@ -6,12 +6,8 @@ fi
 
 if [ -n "${1}" ]; then
     echo "Executando command...";
-    sudo exec-cmd "$@"
+    exec-cmd "$@"
 fi
 
-if [ -f auth.json ]; then
-  sudo rm -f auth.json
-fi;
-
 echo "Iniciando PHP...";
-sudo /usr/bin/supervisord -n -c /var/www/php/config/supervisor.conf;
+/usr/bin/supervisord -n -c ${PHP_CONFIG_PATH}supervisor.conf;
