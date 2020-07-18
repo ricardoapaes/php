@@ -8,4 +8,4 @@ export COMPOSER_ALLOW_SUPERUSER=1
 curl -sS https://getcomposer.org/installer | \
  php -- --install-dir=/usr/local/bin --filename=xcomposer
 
-xcomposer global require hirak/prestissimo dg/composer-cleaner
+xcomposer global require hirak/prestissimo
