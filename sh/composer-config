@@ -1,7 +1,10 @@
 #!/bin/bash
 
+xcomposer config --global discard-changes true
+
 if [ -n "$GITHUB_TOKEN" ]; then
     echo "Configurando github..."
+    ssh-keyscan -t rsa github.com | tee ~/.ssh/known_hosts | ssh-keygen -lf -
     xcomposer config -g github-oauth.github.com ${GITHUB_TOKEN}
 fi
 

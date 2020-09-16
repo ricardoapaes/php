@@ -5,11 +5,13 @@ if [ ! -x "$(command -v xcomposer)" ]; then
     exit 1;
 fi
 
-cd ${COMPOSER_FOLDER}/
-
-if [ ! -f composer.json ]; then
-    echo "File composer.json not found in '${COMPOSER_FOLDER}'.";
-    exit 1;
+if [ ! -f "${COMPOSER_FOLDER}/composer.json" ]; then
+    if [ ! -f "composer.json" ]; then
+      echo "File composer.json not found in '${COMPOSER_FOLDER}'.";
+      exit 1;
+    fi
+else
+  cd "${COMPOSER_FOLDER}/" || exit
 fi
 
 xcomposer "$@"
