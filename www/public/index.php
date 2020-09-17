@@ -9,4 +9,4 @@ $stmt->execute();
 
 $rec = $stmt->fetch();
 
-echo $rec['nome'];
+echo $rec['nome'] . "|" . file_get_contents(__DIR__ . '/../temp/file.txt');
