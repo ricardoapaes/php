@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [ ! -f "${COMPOSER_FOLDER}/composer.json" ]; then
-  COMPOSER_FOLDER=${WWW}
-fi
-
-echo "COMPOSER_FOLDER: ${COMPOSER_FOLDER}"
-export ${COMPOSER_FOLDER}
-
 configure-php
 
 if [ -n "$INSTALL_COMPOSER" ]; then

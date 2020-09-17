@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd ${COMPOSER_FOLDER}
+source composer-util
+
+COMPOSER_JSON_HOME=$( get_composer_home )
+cd "${COMPOSER_JSON_HOME}/"
 
 if [ -f vendor/bin/phinx ]; then
   vendor/bin/phinx migrate -vvv;
