@@ -10,7 +10,7 @@ services:
     build: .
     image: likesistemas/php:dev
     container_name: php_app
-    command: composer seed
+    command: composer seed && chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
     environment:
       - PHP_NAME=lemp
       - PHP_PM=dynamic

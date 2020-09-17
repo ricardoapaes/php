@@ -72,6 +72,11 @@ RUN apt-get update && apt-get install -y wget \
  && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
  && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+# INSTALANDO SUDO
+RUN apt-get update && apt-get install -y sudo
+RUN echo "www-data:www-data" | chpasswd && adduser www-data sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 ENV TZ=America/Fortaleza
 ENV WWW=/var/www
 ENV PUBLIC_HTML="${WWW}/public"
@@ -95,7 +100,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/start-php \
  && chmod +x /usr/local/bin/exec-cmd \
  && chmod +x /usr/local/bin/entrypoint-php \
- && chmod +x /usr/local/bin/composer
+ && chmod +x /usr/local/bin/composer \
+ && chmod +x /usr/local/bin/run-as-www
 
 COPY www/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
