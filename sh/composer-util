@@ -1,0 +1,13 @@
+#!/bin/bash
+
+get_composer_home() {
+    if [ -f "composer.json" ]; then
+        echo ${PWD}
+    elif [ -f "${WWW}/composer.json" ]; then
+        echo ${WWW}
+    elif [ -f "${PUBLIC_HTML}/composer.json" ]; then
+        echo ${PUBLIC_HTML}
+    else
+        exit 1;
+    fi
+}

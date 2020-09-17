@@ -1,17 +1,13 @@
 #!/bin/bash
 
+source composer-util
+
 if [ ! -x "$(command -v xcomposer)" ]; then
     echo "Composer is not installed.";
     exit 1;
 fi
 
-if [ ! -f "${COMPOSER_FOLDER}/composer.json" ]; then
-    if [ ! -f "composer.json" ]; then
-      echo "File composer.json not found in '${COMPOSER_FOLDER}'.";
-      exit 1;
-    fi
-else
-  cd "${COMPOSER_FOLDER}/" || exit
-fi
+COMPOSER_JSON_HOME=$( get_composer_home )
 
+cd "${COMPOSER_JSON_HOME}/"
 xcomposer "$@"

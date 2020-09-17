@@ -94,7 +94,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/start-php \
  && chmod +x /usr/local/bin/exec-cmd \
  && chmod +x /usr/local/bin/entrypoint-php \
- && chmod +x /usr/local/bin/composer
+ && chmod +x /usr/local/bin/composer \
+ && chmod +x /usr/local/bin/composer-util
 
 COPY www/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
