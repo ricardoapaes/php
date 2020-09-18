@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source composer-util
+source php-utils
 
 if [ ! -x "$(command -v xcomposer)" ]; then
     echo "Composer is not installed.";

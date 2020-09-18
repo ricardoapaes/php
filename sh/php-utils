@@ -1,0 +1,25 @@
+#!/bin/bash
+
+get_composer_home() {
+    json_src=$(get_filename_home "composer.json")
+
+    if [ -n "${json_src}" ]; then
+        echo "${json_src}"
+    else
+        vendor_src=$(get_filename_home "vendor/autoload.php");
+
+        if [ -n "${vendor_src}" ]; then
+            echo "${vendor_src}"
+        fi
+    fi
+}
+
+get_filename_home() {
+    if [ -f ${1} ]; then
+        echo ${PWD}
+    elif [ -f "${WWW}/${1}" ]; then
+        echo ${WWW}
+    elif [ -f "${PUBLIC_HTML}/${1}" ]; then
+        echo ${PUBLIC_HTML}
+    fi
+}
