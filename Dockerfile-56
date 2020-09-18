@@ -100,7 +100,7 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/exec-cmd \
  && chmod +x /usr/local/bin/entrypoint-php \
  && chmod +x /usr/local/bin/composer \
- && chmod +x /usr/local/bin/composer-util \
+ && chmod +x /usr/local/bin/php-utils \
  && chmod +x /usr/local/bin/run-as-www
 
 COPY www/info.php $PUBLIC_HTML/index.php

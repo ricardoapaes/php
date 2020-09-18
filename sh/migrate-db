@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source composer-util
+source php-utils
 
 COMPOSER_JSON_HOME=$( get_composer_home )
 cd "${COMPOSER_JSON_HOME}/"
