@@ -2,16 +2,16 @@
 
 configure-php
 
-if [ -n "$INSTALL_COMPOSER" ]; then
-  install-composer
+if [ -n "$INSTALL_COMPOSER" ] && [ "$INSTALL_COMPOSER" = "true" ]; then
+	install-composer
 fi
 
 if [ -x "$(command -v xcomposer)" ]; then
 	composer-config
 fi
 
-if [ -n "$COMPOSER_INSTALL" ]; then
-  composer-install ${COMPOSER_INSTALL_PARAMS}
+if [ -n "$COMPOSER_INSTALL" ] && [ "$COMPOSER_INSTALL" = "true" ]; then
+	composer-install ${COMPOSER_INSTALL_PARAMS}
 fi
 
 if [ -n "$DB_HOST" ]; then

@@ -9,4 +9,8 @@ $stmt->execute();
 
 $rec = $stmt->fetch();
 
-echo $rec['nome'] . "|" . file_get_contents(__DIR__ . '/../temp/file.txt');
+$versaoPhp = explode('.', phpversion());
+
+echo $rec['nome'] . "|" . 
+     file_get_contents(__DIR__ . '/../temp/file.txt') . "|" . 
+     $versaoPhp[0].$versaoPhp[1];

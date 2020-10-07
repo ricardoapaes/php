@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile-56
     image: likesistemas/php:56-dev
     container_name: php56_app
-    command: composer seed && chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
+    command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
     environment:
       - PHP_NAME=lemp
       - PHP_PM=dynamic
@@ -25,6 +25,7 @@ services:
       - INSTALL_COMPOSER=true
       - COMPOSER_INSTALL=true
       - DB_MIGRATE=true
+      - DB_SEED=true
     env_file:
       - ./docker-compose.env
     volumes:

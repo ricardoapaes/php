@@ -11,12 +11,16 @@ docker run -v ${PWD}:/var/www/ -p 9000:9000 likesistemas/php:latest
 PHP_NAME: Nome do pool do PHP-FPM (opcional)
 PHP_USER: Usuário que será usado no PHP-FPM (opcional)
 PHP_GROUP: Grupo que será usado no PHP-FPM (opcional)
+MEMORY_LIMIT: Define a memoria do PHP (opcional) - Padrão é 512MB
+SHOW_ERRORS: Define se é para mostrar os erros do PHP (opcional)
 DB_HOST: Aguarda o host do banco de dados iniciar, timaout 30 segundos. (opcional)
 DB_PORT: Porta do banco de dados. (opcional, padrão 3306)
-DB_MIGRATE: Informar true para fazer executar depois da checagem do banco de dados (opcional)
+DB_MIGRATE: Informar true para executar o migrate depois da checagem do banco de dados (opcional)
+DB_SEED: Informar true para executar o seed depois da checagem do banco de dados (opcional)
 INSTALL_COMPOSER: Instala o composer no container antes de iniciar (opcional, boolean)
 COMPOSER_INSTALL: Executa o comando do composer install ao iniciar (opcional, boolean)
 COMPOSER_INSTALL_PARAMS: Parametros que serão passados ao composer install (opcional, padrão: -a --no-dev)
+COMPOSER_FOLDER: Define a pasta raiz do composer (opcional)
 ```
 
 ### Dynamic
@@ -63,3 +67,16 @@ pm.max_children nos leva a 512 Mb / 60 Mb = 8
 ```
 
 Explicação retirada do site: <a href="https://www.kinamo.be/en/support/faq/determining-the-correct-number-of-child-processes-for-php-fpm-on-nginx">Determining the correct number of child processes for PHP-FPM on NGinx</a>
+
+### XDebug
+Existe um script sh que faz a instalação dele, ele será instalado automaticamente na variante dev do container.
+
+Para ativar segue as variaveis de ambiente
+
+```
+XDEBUG=Informar true para ativa-lo.
+XDEBUG_HOST=Informar o host do XDEBUG, segue docs: https://xdebug.org/docs/all_settings#remote_host
+XDEBUG_IDEKEY=Se não informado será utilizado a env PHP_NAME como padrão. Segue docs: https://xdebug.org/docs/all_settings#xdebug.idekey
+XDEBUG_PROFILER=Se informado será ativado o profile e será salvo na pasta: /var/xdebug/.
+XDEBUG_CONFIG=Variavel do próprio XDEBUG. Segue docs: https://xdebug.org/docs/remote
+```

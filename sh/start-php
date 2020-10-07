@@ -1,7 +1,11 @@
 #!/bin/bash
 
-if [ -n "$DB_MIGRATE" ]; then
+if [ -n "$DB_MIGRATE" ] && [ "$DB_MIGRATE" = "true" ]; then
     migrate-db
+fi 
+
+if [ -n "$DB_SEED" ] && [ "$DB_SEED" = "true" ]; then
+    seed-db
 fi 
 
 if [ -n "${1}" ]; then

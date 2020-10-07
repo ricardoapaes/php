@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -x "$(command -v xcomposer)" ]; then
+    echo "Composer is alrealy installed.";
+    exit 0;
+fi
+
 apt update && apt install -y git unzip
 rm -rf /var/lib/apt/lists/*
 
