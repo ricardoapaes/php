@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo -u www-data "${PWD}/$@"
+sudo -E -u www-data "${PWD}/$@"

@@ -21,5 +21,7 @@ get_filename_home() {
         echo ${WWW}
     elif [ -f "${PUBLIC_HTML}/${1}" ]; then
         echo ${PUBLIC_HTML}
+    elif [ -n "${COMPOSER_FOLDER}" ] && [ -f "${COMPOSER_FOLDER}/${1}" ]; then
+        echo ${COMPOSER_FOLDER}
     fi
 }

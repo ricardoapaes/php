@@ -10,7 +10,7 @@ services:
     build: .
     image: likesistemas/php:dev
     container_name: php_app
-    command: composer seed && chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
+    command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
     environment:
       - PHP_NAME=lemp
       - PHP_PM=dynamic
@@ -23,6 +23,8 @@ services:
       - INSTALL_COMPOSER=true
       - COMPOSER_INSTALL=true
       - DB_MIGRATE=true
+      - DB_SEED=true
+      - SHOW_ERRORS=true
     env_file:
       - ./docker-compose.env
     volumes:

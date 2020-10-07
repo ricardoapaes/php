@@ -6,9 +6,9 @@ COMPOSER_JSON_HOME=$( get_composer_home )
 cd "${COMPOSER_JSON_HOME}/"
 
 if [ -f vendor/bin/phinx ]; then
-  php vendor/bin/phinx migrate -vvv;
+  php vendor/bin/phinx seed:run -vvv;
 fi;
 
 if [ -f artisan ]; then
-  php artisan migrate;
+  php artisan db:seed;
 fi;

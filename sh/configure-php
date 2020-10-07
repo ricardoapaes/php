@@ -34,6 +34,16 @@ if [ -n "${PHP_PM_PROCESS_IDLE_TIMEOUT}" ]; then
 	crudini --set ${PHP_FPM_CONFIG} ${PHP_NAME} pm.process_idle_timeout ${PHP_PM_PROCESS_IDLE_TIMEOUT};
 fi;
 
+if [ "${SHOW_ERRORS}" = "true" ]; then
+	echo "Configurando para mostrar erros..."
+	crudini --set ${PHP_INI_CONFIG} "" display_errors "On";
+fi;
+
+if [ -n "${MEMORY_LIMIT}" ]; then
+	echo "Alterando memoria limit para ${MEMORY_LIMIT}..."
+	crudini --set ${PHP_INI_CONFIG} "" memory_limit ${MEMORY_LIMIT};
+fi;
+
 # PHP-FPM USER
 if [ -n "$PHP_USER" ]; then
 	echo "Configurando usuário..."
@@ -46,20 +56,27 @@ if [ -n "$PHP_GROUP" ]; then
 	sed -i "s/group=www-data/group=${PHP_GROUP}/g" ${PHP_FPM_CONFIG};
 fi;
 
-if [ -n "$XDEBUG" ]; then
+if [ -n "$XDEBUG" ] && [ "$XDEBUG" = "true" ]; then
 	if [ ! -n "$XDEBUG_HOST" ]; then
 		XDEBUG_HOST=host.docker.internal;
 	fi;
 	
 	echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" >> ${CONFIG_XDEBUG}
-  echo "xdebug.remote_enable=1 " >> ${CONFIG_XDEBUG}
-  echo "xdebug.remote_host=${XDEBUG_HOST}" >> ${CONFIG_XDEBUG}
-  echo "xdebug.remote_log=/tmp/xdebug.log" >> ${CONFIG_XDEBUG}
-  echo "xdebug.remote_autostart=false " >> ${CONFIG_XDEBUG}
-  echo "xdebug.idekey=${PHP_NAME}" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_enable=1" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_host=${XDEBUG_HOST}" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_handler=dbgp" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_log=/tmp/xdebug.log" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_autostart=on" >> ${CONFIG_XDEBUG}
+	echo "xdebug.remote_connect_back=on" >> ${CONFIG_XDEBUG}
 
-  if [ -n "$XDEBUG_PROFILER" ]; then
-    echo "xdebug.profiler_enable = 1" >> ${CONFIG_XDEBUG};
+	if [ -n "$XDEBUG_IDEKEY" ]; then
+		echo "xdebug.idekey=${XDEBUG_IDEKEY}" >> ${CONFIG_XDEBUG}
+	else
+		echo "xdebug.idekey=${PHP_NAME}" >> ${CONFIG_XDEBUG}
+	fi
+
+  	if [ -n "$XDEBUG_PROFILER" ]; then	
+    	echo "xdebug.profiler_enable=1" >> ${CONFIG_XDEBUG};
 		echo "xdebug.profiler_output_dir=${PATH_XDEBUG_PROFILE}" >> ${CONFIG_XDEBUG}
 	fi;
 

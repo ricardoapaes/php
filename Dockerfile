@@ -80,7 +80,6 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 ENV TZ=America/Fortaleza
 ENV WWW=/var/www
 ENV PUBLIC_HTML="${WWW}/public"
-ENV COMPOSER_FOLDER="${PUBLIC_HTML}"
 ENV DB_PORT=3306
 
 ENV XDEBUG_PACKAGE=xdebug
@@ -95,6 +94,7 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/fpm-status \
  && chmod +x /usr/local/bin/start \
  && chmod +x /usr/local/bin/migrate-db \
+ && chmod +x /usr/local/bin/seed-db \
  && chmod +x /usr/local/bin/composer-install \
  && chmod +x /usr/local/bin/composer-config \
  && chmod +x /usr/local/bin/start-php \

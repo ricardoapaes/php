@@ -39,7 +39,7 @@ jobs:
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "Like Sistemas|123" ]; then
+          if [ "${CONTENT}" != "Like Sistemas|123|73" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
