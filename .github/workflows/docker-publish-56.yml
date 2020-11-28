@@ -30,7 +30,7 @@ jobs:
         run: |
           docker-compose -f docker-compose-56.yml up --build -d
 
-          docker run -t --network php56 jwilder/dockerize -wait http://php56_nginx/ -timeout 120s
+          echo $(docker run -t --network php56 jwilder/dockerize -wait http://php56_nginx/ -timeout 60s)
 
           docker ps -a
 

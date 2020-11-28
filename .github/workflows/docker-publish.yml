@@ -30,7 +30,7 @@ jobs:
         run: |
           docker-compose up --build -d
 
-          docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 120s
+          echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
 
