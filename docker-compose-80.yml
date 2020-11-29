@@ -9,9 +9,9 @@ services:
   app:
     build: 
       context: .
-      dockerfile: Dockerfile-73
-      cache_from: 
-        - likesistemas/php:73
+      dockerfile: Dockerfile-80
+      #cache_from: 
+      #  - likesistemas/php:80
     image: likesistemas/php:dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
@@ -25,14 +25,14 @@ services:
       - PHP_PM_MAX_REQUESTS=500
       - DB_HOST=mysql
       - INSTALL_COMPOSER=true
-      - COMPOSER_INSTALL=true
+      #- COMPOSER_INSTALL=true
       - DB_MIGRATE=true
       - DB_SEED=true
       - SHOW_ERRORS=true
     env_file:
       - ./docker-compose.env
     volumes:
-      - ./www-73/:/var/www/
+      - ./www80/:/var/www/
     networks:
       - php
     links:
@@ -62,7 +62,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./www-73/:/var/www/
+      - ./www80/:/var/www/
     links:
       - app
     depends_on:
