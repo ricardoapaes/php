@@ -1,0 +1,18 @@
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.likesistemas.com.br/"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "robmorgan/phinx": "^0.12.4",
+    "symfony/yaml": "^5.1",
+    "like/gateway-pagamento": "^1.0"
+  },
+  "scripts": {
+    "migrate": "phinx migrate",
+    "seed": "phinx seed:run"
+  }
+}

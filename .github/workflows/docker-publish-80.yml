@@ -1,4 +1,4 @@
-name: PHP 7.3
+name: PHP 8.0
 
 on:
   push:
@@ -28,9 +28,7 @@ jobs:
 
       - name: Run tests
         run: |
-          docker pull likesistemas/php:73
-
-          docker-compose -f docker-compose-73.yml up --build -d
+          docker-compose -f docker-compose-80.yml up --build -d
 
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
@@ -41,7 +39,7 @@ jobs:
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "Like Sistemas|123|73" ]; then
+          if [ "${CONTENT}" != "Like Sistemas|123|80" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
@@ -83,14 +81,12 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile-73
+          file: ./Dockerfile-80
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: |
-            likesistemas/php:latest
-            likesistemas/php:73
-            likesistemas/php:7.3
-            ghcr.io/likesistemas/php:latest
-            ghcr.io/likesistemas/php:73
-            ghcr.io/likesistemas/php:7.3
+            likesistemas/php:80
+            likesistemas/php:8.0
+            ghcr.io/likesistemas/php:80
+            ghcr.io/likesistemas/php:8.0
