@@ -1,2 +1,0 @@
-#!/bin/bash
-docker build ${1} -t likesistemas/php:latest .

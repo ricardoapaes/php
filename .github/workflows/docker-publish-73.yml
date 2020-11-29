@@ -1,4 +1,4 @@
-name: Docker
+name: PHP 7.3
 
 on:
   push:
@@ -28,7 +28,9 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose up --build -d
+          docker pull likesistemas/php:73
+
+          docker-compose up -f docker-compose-73.yml --build -d
 
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
@@ -81,6 +83,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./Dockerfile-73
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
