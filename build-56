@@ -1,2 +1,0 @@
-#!/bin/bash
-docker build -t likesistemas/php:56 -f Dockerfile-56 .

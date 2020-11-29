@@ -7,7 +7,11 @@ networks:
 services:
 
   app:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile-73
+      cache_from: 
+        - likesistemas/php:73
     image: likesistemas/php:dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
