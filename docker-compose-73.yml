@@ -32,7 +32,7 @@ services:
     env_file:
       - ./docker-compose.env
     volumes:
-      - ./www-73/:/var/www/
+      - ./www73/:/var/www/
     networks:
       - php
     links:
@@ -62,7 +62,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./www-73/:/var/www/
+      - ./www73/:/var/www/
     links:
       - app
     depends_on:
