@@ -104,7 +104,7 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/php-utils \
  && chmod +x /usr/local/bin/run-as-www
 
-COPY www/info.php $PUBLIC_HTML/index.php
+COPY www73/public/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
 RUN chown www-data:www-data $PUBLIC_HTML
 
