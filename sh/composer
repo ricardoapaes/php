@@ -10,4 +10,4 @@ fi
 COMPOSER_JSON_HOME=$( get_composer_home )
 
 cd "${COMPOSER_JSON_HOME}/"
-xcomposer "$@"
+php -d memory_limit=-1 /usr/local/bin/xcomposer "$@"
