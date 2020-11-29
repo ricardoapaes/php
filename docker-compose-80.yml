@@ -25,7 +25,7 @@ services:
       - PHP_PM_MAX_REQUESTS=500
       - DB_HOST=mysql
       - INSTALL_COMPOSER=true
-      #- COMPOSER_INSTALL=true
+      - COMPOSER_INSTALL=true
       - DB_MIGRATE=true
       - DB_SEED=true
       - SHOW_ERRORS=true
