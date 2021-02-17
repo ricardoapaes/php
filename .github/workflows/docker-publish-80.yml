@@ -25,9 +25,12 @@ jobs:
           echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> .env
           echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
           echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
+          echo "VERSAO=80-dev" >> .env
 
       - name: Run tests
         run: |
+          docker pull likesistemas/php -a
+
           docker-compose -f docker-compose-80.yml up --build -d
 
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
@@ -40,6 +43,22 @@ jobs:
           echo "CHAMADA HTTP: ${CONTENT}";
 
           if [ "${CONTENT}" != "Like Sistemas|123|80" ]; then
+            echo "Chamada HTTP retornou errado: ${CONTENT}"
+            exit 1;
+          fi
+
+          echo "Versão com volume. OK!"
+
+          docker-compose -f docker-compose-80.yml -f docker-compose.prod.yml up --build -d
+          echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
+
+          docker ps -a
+          docker logs php_app
+
+          CONTENT=$(curl -s "http://127.0.0.1/");
+          echo "CHAMADA HTTP: ${CONTENT}";
+
+          if [ "${CONTENT}" != "80" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
