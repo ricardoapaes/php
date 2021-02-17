@@ -1,0 +1,20 @@
+#!/bin/bash
+if [ -d "${SOURCE_CODE_FOLDER}/" ]; then    
+	echo "Copiando arquivos da pasta '${SOURCE_CODE_FOLDER}'..."
+
+    if [ -n "${SOURCE_CODE_FOLDER_TO_COPY}" ]; then
+        echo "Para a pasta '${SOURCE_CODE_FOLDER_TO_COPY}'!"
+		cp -r ${SOURCE_CODE_FOLDER}/. ${SOURCE_CODE_FOLDER_TO_COPY}/;
+        ls -la ${SOURCE_CODE_FOLDER_TO_COPY}
+	else
+		if [ -d "${SOURCE_CODE_FOLDER}/public/" ]; then
+            echo "Para a pasta '${WWW}'!"
+			cp -r ${SOURCE_CODE_FOLDER}/. ${WWW}/;
+            ls -la ${WWW}
+		else
+            echo "Para a pasta '${PUBLIC_HTML}'!"
+			cp -r ${SOURCE_CODE_FOLDER}/. ${PUBLIC_HTML}/;
+            ls -la ${PUBLIC_HTML}
+		fi
+	fi
+fi

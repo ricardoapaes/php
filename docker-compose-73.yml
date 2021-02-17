@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile-73
       cache_from: 
         - likesistemas/php:73
-    image: likesistemas/php:dev
+    image: likesistemas/php:73-dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
     environment:
@@ -29,8 +29,10 @@ services:
       - DB_MIGRATE=true
       - DB_SEED=true
       - SHOW_ERRORS=true
-    env_file:
-      - ./docker-compose.env
+      - CODECOMMIT_HOST=${CODECOMMIT_HOST:-git-codecommit.us-east-1.amazonaws.com}
+      - GITHUB_TOKEN=$GITHUB_TOKEN
+      - CODECOMMIT_USER=$CODECOMMIT_USER
+      - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD
     volumes:
       - ./www73/:/var/www/
     networks:

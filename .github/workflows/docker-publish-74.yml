@@ -1,4 +1,4 @@
-name: PHP 5.6
+name: PHP 7.4
 
 on:
   push:
@@ -25,38 +25,40 @@ jobs:
           echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> .env
           echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
           echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
-          echo "VERSAO=56-dev" >> .env
+          echo "VERSAO=74-dev" >> .env
 
       - name: Run tests
         run: |
           docker pull likesistemas/php -a
 
-          docker-compose -f docker-compose-56.yml up --build -d
-          echo $(docker run -t --network php56 jwilder/dockerize -wait http://php56_nginx/ -timeout 60s)
+          docker-compose -f docker-compose-74.yml up --build -d
+
+          echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
-          docker logs php56_app
+
+          docker logs php_app
 
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "Like Sistemas|123|56" ]; then
+          if [ "${CONTENT}" != "Like Sistemas|123|74" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
 
           echo "Versão com volume. OK!"
 
-          docker-compose -f docker-compose-56.yml -f docker-compose.prod.yml up --build -d
-          echo $(docker run -t --network php56 jwilder/dockerize -wait http://php56_nginx/ -timeout 60s)
+          docker-compose -f docker-compose-74.yml -f docker-compose.prod.yml up --build -d
+          echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
-          docker logs php56_app
+          docker logs php_app
 
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "56" ]; then
+          if [ "${CONTENT}" != "74" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
@@ -98,12 +100,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile-56
+          file: ./Dockerfile-80
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: |
+            PHP_VERSION=7.4-fpm
           tags: |
-            likesistemas/php:56
-            likesistemas/php:5.6
-            ghcr.io/likesistemas/php:56
-            ghcr.io/likesistemas/php:5.6
+            likesistemas/php:74
+            likesistemas/php:7.4
+            ghcr.io/likesistemas/php:74
+            ghcr.io/likesistemas/php:7.4

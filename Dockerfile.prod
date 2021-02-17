@@ -1,0 +1,12 @@
+ARG VERSAO=latest
+
+FROM likesistemas/php:${VERSAO}
+
+WORKDIR ${SOURCE_CODE_FOLDER}
+COPY www/index.php .
+
+WORKDIR ${PUBLIC_HTML}
+
+ENV PHP_NAME=app-producao
+ENV APP_NAME=app-producao
+ENV OPCACHE=1

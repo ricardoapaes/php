@@ -10,9 +10,11 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile-80
+      args: 
+        - PHP_VERSION=7.4-fpm
       cache_from: 
-        - likesistemas/php:80
-    image: likesistemas/php:80-dev
+        - likesistemas/php:74
+    image: likesistemas/php:74-dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
     environment:
@@ -32,9 +34,9 @@ services:
       - CODECOMMIT_HOST=${CODECOMMIT_HOST:-git-codecommit.us-east-1.amazonaws.com}
       - GITHUB_TOKEN=$GITHUB_TOKEN
       - CODECOMMIT_USER=$CODECOMMIT_USER
-      - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD
+      - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD    
     volumes:
-      - ./www80/:/var/www/
+      - ./www73/:/var/www/
     networks:
       - php
     links:
@@ -64,7 +66,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./www80/:/var/www/
+      - ./www73/:/var/www/
     links:
       - app
     depends_on:
