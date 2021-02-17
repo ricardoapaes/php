@@ -15,6 +15,9 @@ services:
       - VERSAO=${VERSAO:-latest}
     volumes:
     - src:/var/www/
+    environment:
+    - INSTALL_COMPOSER=false
+    - COMPOSER_INSTALL=false
 
   nginx:
     volumes:
