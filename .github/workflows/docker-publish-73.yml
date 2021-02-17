@@ -20,11 +20,11 @@ jobs:
 
       - name: Prepare code
         run: |
-          touch docker-compose.env
-          echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> docker-compose.env
-          echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> docker-compose.env
-          echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> docker-compose.env
-          echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> docker-compose.env
+          touch .env
+          echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> .env
+          echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> .env
+          echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
+          echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
 
       - name: Run tests
         run: |

@@ -43,6 +43,10 @@ RUN apt-get update && apt-get install -y libmemcached-dev \
  && pecl install memcached-2.2.0 \
  && docker-php-ext-enable memcached
 
+# INSTALANDO REDIS
+RUN pecl install redis-2.2.8 \
+ && docker-php-ext-enable redis
+
 # CONFIGURANDO TIMEZONE
 RUN pecl install timezonedb \
  && echo "extension=timezonedb.so" > ${PHP_GLOBAL_CONFIG_PATH}00_timezone.ini
@@ -79,6 +83,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 ENV TZ="America/Fortaleza"
 ENV WWW="/var/www/"
 ENV PUBLIC_HTML="${WWW}public"
+ENV SOURCE_CODE_FOLDER="/var/src"
 ENV DB_PORT=3306
 
 ENV XDEBUG_PACKAGE=xdebug-2.5.5
@@ -101,7 +106,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/entrypoint-php \
  && chmod +x /usr/local/bin/composer \
  && chmod +x /usr/local/bin/php-utils \
- && chmod +x /usr/local/bin/run-as-www
+ && chmod +x /usr/local/bin/run-as-www \
+ && chmod +x /usr/local/bin/copy-from-src
 
 COPY www56/public/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/

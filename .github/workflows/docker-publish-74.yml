@@ -1,4 +1,4 @@
-name: PHP 8.0
+name: PHP 7.3
 
 on:
   push:
@@ -25,10 +25,13 @@ jobs:
           echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> .env
           echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
           echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
+          echo "VERSAO=74-dev" >> .env
 
       - name: Run tests
         run: |
-          docker-compose -f docker-compose-80.yml up --build -d
+          docker pull likesistemas/php:74
+
+          docker-compose -f docker-compose-74.yml up --build -d
 
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
@@ -39,7 +42,23 @@ jobs:
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "Like Sistemas|123|80" ]; then
+          if [ "${CONTENT}" != "Like Sistemas|123|74" ]; then
+            echo "Chamada HTTP retornou errado: ${CONTENT}"
+            exit 1;
+          fi
+
+          echo "Versão com volume. OK!"
+
+          docker-compose -f docker-compose-74.yml -f docker-compose.prod.yml up --build -d
+          echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
+
+          docker ps -a
+          docker logs php_app
+
+          CONTENT=$(curl -s "http://127.0.0.1/");
+          echo "CHAMADA HTTP: ${CONTENT}";
+
+          if [ "${CONTENT}" != "74" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
@@ -85,8 +104,10 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: |
+            PHP_VERSION=7.4-fpm
           tags: |
-            likesistemas/php:80
-            likesistemas/php:8.0
-            ghcr.io/likesistemas/php:80
-            ghcr.io/likesistemas/php:8.0
+            likesistemas/php:74
+            likesistemas/php:7.4
+            ghcr.io/likesistemas/php:74
+            ghcr.io/likesistemas/php:7.4

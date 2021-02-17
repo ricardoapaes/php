@@ -1,4 +1,5 @@
-FROM php:7.3-fpm
+ARG PHP_VERSION=7.3-fpm
+FROM php:${PHP_VERSION}
 
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
@@ -41,8 +42,12 @@ ENV COMPOSER_INSTALL_PARAMS="-a --no-dev"
 
 # INSTALANDO MEMCACHED
 RUN apt-get update && apt-get install -y libmemcached-dev \
- && pecl install memcached-3.1.3 \
+ && pecl install memcached \
  && docker-php-ext-enable memcached
+
+# INSTALANDO REDIS
+RUN pecl install redis \
+ && docker-php-ext-enable redis
 
 # CONFIGURANDO TIMEZONE
 RUN pecl install timezonedb \
@@ -80,6 +85,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 ENV TZ=America/Fortaleza
 ENV WWW=/var/www
 ENV PUBLIC_HTML="${WWW}/public"
+ENV SOURCE_CODE_FOLDER="/var/src"
 ENV DB_PORT=3306
 
 ENV XDEBUG_PACKAGE=xdebug
@@ -102,7 +108,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/entrypoint-php \
  && chmod +x /usr/local/bin/composer \
  && chmod +x /usr/local/bin/php-utils \
- && chmod +x /usr/local/bin/run-as-www
+ && chmod +x /usr/local/bin/run-as-www \
+ && chmod +x /usr/local/bin/copy-from-src
 
 COPY www73/public/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/

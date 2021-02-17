@@ -1,5 +1,7 @@
 #!/bin/bash
 
+copy-from-src
+
 configure-php
 
 if [ -n "$INSTALL_COMPOSER" ] && [ "$INSTALL_COMPOSER" = "true" ]; then
