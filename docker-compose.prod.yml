@@ -14,6 +14,8 @@ services:
     environment:
     - INSTALL_COMPOSER=false
     - COMPOSER_INSTALL=false
+    command:
+    - php -v
 
   nginx:
     volumes:
