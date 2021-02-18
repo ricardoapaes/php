@@ -12,8 +12,6 @@ services:
       dockerfile: Dockerfile-80
       args: 
         - PHP_VERSION=7.4-fpm
-      cache_from: 
-        - likesistemas/php:74
     image: likesistemas/php:74-dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
@@ -37,6 +35,7 @@ services:
       - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD    
     volumes:
       - ./www73/:/var/www/
+      - ./events/:/var/events/
     networks:
       - php
     links:

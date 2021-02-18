@@ -12,3 +12,5 @@ fi;
 if [ -f artisan ]; then
   php artisan migrate;
 fi;
+
+run-event "db-migrated"

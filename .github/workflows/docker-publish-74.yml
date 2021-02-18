@@ -47,7 +47,17 @@ jobs:
             exit 1;
           fi
 
-          echo "Versão com volume. OK!"
+          LOGS=$(cat www73/events.log);
+          echo "EVENTS LOG: ${LOGS}";
+          if [[ ! $LOGS =~ "started" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "src-copied" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "composer-ready" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "composer-vendor-ready" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "cmd-executed" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "db-ready" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "db-migrated" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "db-sown" ]]; then exit 1; fi
+          if [[ ! $LOGS =~ "ready" ]]; then exit 1; fi
 
           docker-compose -f docker-compose-74.yml -f docker-compose.prod.yml up --build -d
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)

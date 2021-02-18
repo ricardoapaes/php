@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Executando command '$@'...";
 COMMAND_FILE="${PUBLIC_HTML}/cmd-file.sh"
 touch ${COMMAND_FILE}
 echo "#!/bin/bash" >> ${COMMAND_FILE};

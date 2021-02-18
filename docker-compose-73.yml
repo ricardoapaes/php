@@ -10,8 +10,6 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile-73
-      cache_from: 
-        - likesistemas/php:73
     image: likesistemas/php:73-dev
     container_name: php_app
     command: chmod +x /var/www/create-temp.sh && /var/www/create-temp.sh
@@ -35,6 +33,7 @@ services:
       - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD
     volumes:
       - ./www73/:/var/www/
+      - ./events/:/var/events/
     networks:
       - php
     links:

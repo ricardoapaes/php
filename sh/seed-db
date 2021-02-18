@@ -12,3 +12,5 @@ fi;
 if [ -f artisan ]; then
   php artisan db:seed;
 fi;
+
+run-event "db-sown"
