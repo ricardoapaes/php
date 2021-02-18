@@ -1,5 +1,7 @@
 #!/bin/bash
 
+run-event "db-ready"
+
 if [ -n "$DB_MIGRATE" ] && [ "$DB_MIGRATE" = "true" ]; then
     migrate-db
 fi 
@@ -9,9 +11,11 @@ if [ -n "$DB_SEED" ] && [ "$DB_SEED" = "true" ]; then
 fi 
 
 if [ -n "${1}" ]; then
-    echo "Executando command...";
     exec-cmd "$@"
+    run-event "cmd-executed"
 fi
+
+run-event "ready"
 
 echo "Iniciando PHP...";
 /usr/bin/supervisord -n -c ${PHP_CONFIG_PATH}supervisor.conf;

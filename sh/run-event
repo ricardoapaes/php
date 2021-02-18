@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo ">> ${1}"
+
+FILE_EVENT="/var/events/${1}"
+
+if [ -f ${FILE_EVENT} ]; then
+   	sudo chmod +x ${FILE_EVENT}
+   	sh ${FILE_EVENT}
+fi

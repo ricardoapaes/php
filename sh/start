@@ -1,10 +1,13 @@
 #!/bin/bash
 
+run-event "started"
+
 copy-from-src
+run-event "src-copied"
 
 configure-php
 
-if [ -n "$INSTALL_COMPOSER" ] && [ "$INSTALL_COMPOSER" = "true" ]; then
+if [ ! -x "$(command -v xcomposer)" ] && [ -n "$INSTALL_COMPOSER" ] && [ "$INSTALL_COMPOSER" = "true" ]; then
 	install-composer
 fi
 

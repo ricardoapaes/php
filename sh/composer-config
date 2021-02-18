@@ -14,3 +14,5 @@ if [ -n "$CODECOMMIT_USER" ]; then
     echo "Configurando codecommit..."
     xcomposer config -g http-basic.${CODECOMMIT_HOST} ${CODECOMMIT_USER} ${CODECOMMIT_PASSWORD}
 fi
+
+run-event "composer-ready"

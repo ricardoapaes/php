@@ -1,8 +1,4 @@
 version: '3.5'
-networks:
-  php:
-    name: php
-    driver: bridge
 
 services:
 
@@ -18,7 +14,8 @@ services:
     environment:
     - INSTALL_COMPOSER=false
     - COMPOSER_INSTALL=false
-    command: php -v
+    command:
+    - php -v
 
   nginx:
     volumes:

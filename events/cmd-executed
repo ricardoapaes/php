@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "cmd-executed" >> ${WWW}/events.log

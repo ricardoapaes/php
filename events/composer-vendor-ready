@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "composer-vendor-ready" >> ${WWW}/events.log

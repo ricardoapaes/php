@@ -2,6 +2,7 @@
     "files.encoding": "utf8",
     "files.associations": {
         "**/sh/**": "shellscript",
+        "**/events/**": "shellscript",
         "Dockerfile*": "dockerfile"
     },
 }
