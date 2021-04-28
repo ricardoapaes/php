@@ -10,12 +10,13 @@ if [ -n "$DB_SEED" ] && [ "$DB_SEED" = "true" ]; then
     seed-db
 fi 
 
-if [ -n "${1}" ]; then
+if [ -n "${1}" ] && [ "${1}" != "php-fpm" ]; then
     exec-cmd "$@"
     run-event "cmd-executed"
 fi
 
 run-event "ready"
 
-echo "Iniciando PHP...";
-/usr/bin/supervisord -n -c ${PHP_CONFIG_PATH}supervisor.conf;
+if [ "$CLI" != "true" ]; then
+    start-php-fpm
+fi
