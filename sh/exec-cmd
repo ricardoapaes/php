@@ -6,4 +6,4 @@ echo "#!/bin/bash" >> ${COMMAND_FILE};
 echo "$@" >> ${COMMAND_FILE}
 chmod +x ${COMMAND_FILE}
 ${COMMAND_FILE}
-rm -fv ${COMMAND_FILE}
+rm -f ${COMMAND_FILE}

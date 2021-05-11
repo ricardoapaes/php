@@ -25,7 +25,7 @@ if [ -n "$DB_HOST" ]; then
 	dockerize \
 		-wait tcp://${DB_HOST}:${DB_PORT} \
 		-timeout 30s \
-	    start-php "$@"
+	    start-php
 else
-	start-php "$@"
+	start-php
 fi
