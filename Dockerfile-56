@@ -107,7 +107,8 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/run-as-www \
  && chmod +x /usr/local/bin/copy-from-src \
  && chmod +x /usr/local/bin/run-event \
- && chmod +x /usr/local/bin/start-php-fpm
+ && chmod +x /usr/local/bin/start-php-fpm \
+ && chmod +x /usr/local/bin/entrypoint-cli
 
 COPY www56/public/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/

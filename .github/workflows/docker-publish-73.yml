@@ -73,13 +73,13 @@ jobs:
             exit 1;
           fi
 
-          CLI_RETURN=$(docker run -e CLI=true likesistemas/php:73-dev php -r "echo 'cmd=lk';");
-          echo "CLI: ${CLI_RETURN}";
+          # CLI_RETURN=$(docker run -e CLI=true likesistemas/php:73-dev php -r "echo 'cmd=lk';");
+          # echo "CLI: ${CLI_RETURN}";
 
-          if [[ ! $CLI_RETURN =~ "cmd=lk" ]]; then
-            echo "Chamada CLI retornou errado: ${CLI_RETURN}"
-            exit 1;
-          fi
+          # if [[ ! $CLI_RETURN =~ "cmd=lk" ]]; then
+          #   echo "Chamada CLI retornou errado: ${CLI_RETURN}"
+          #   exit 1;
+          # fi
 
   push:
     needs: test
