@@ -19,6 +19,8 @@ if [ -n "${1}" ]; then
     if [ "${CLI}" = "false" ] && [ "${1}" != "php-fpm" ]; then
         exec-cmd "$@"
         PHP_FPM_PARAMS="php-fpm"
+    else
+        PHP_FPM_PARAMS="php-fpm"
     fi
 else
     PHP_FPM_PARAMS="$@"
