@@ -45,7 +45,7 @@ jobs:
             exit 1;
           fi
 
-          LOGS=$(cat www73/events.log);
+          LOGS=$(cat www56/events.log);
           echo "EVENTS LOG: ${LOGS}";
           if [[ ! $LOGS =~ "started" ]]; then exit 10; fi
           if [[ ! $LOGS =~ "src-copied" ]]; then exit 11; fi
