@@ -39,6 +39,7 @@ ENV PHP_PM_MAX_SPARE_SERVERS=4
 ENV PHP_PM_MAX_REQUESTS=500
 ENV PHP_PM_PROCESS_IDLE_TIMEOUT=300
 ENV COMPOSER_INSTALL_PARAMS="-a --no-dev"
+ENV CLI=false
 
 # INSTALANDO MEMCACHED
 RUN apt-get update && apt-get install -y libmemcached-dev \
@@ -52,9 +53,6 @@ RUN pecl install redis \
 # CONFIGURANDO TIMEZONE
 RUN pecl install timezonedb \
  && echo "extension=timezonedb.so" > ${PHP_GLOBAL_CONFIG_PATH}00_timezone.ini
-
-# INSTALANDO SUPERVISOR
-RUN apt-get update && apt-get install -y supervisor
 
 # CONFIGURAÇÃO PHP
 COPY config/ ${PHP_CONFIG_PATH}
@@ -110,7 +108,9 @@ RUN chmod +x /usr/local/bin/install-composer \
  && chmod +x /usr/local/bin/php-utils \
  && chmod +x /usr/local/bin/run-as-www \
  && chmod +x /usr/local/bin/copy-from-src \
- && chmod +x /usr/local/bin/run-event
+ && chmod +x /usr/local/bin/run-event \
+ && chmod +x /usr/local/bin/start-php-fpm \
+ && chmod +x /usr/local/bin/entrypoint-cli
 
 COPY www73/public/info.php $PUBLIC_HTML/index.php
 RUN chown www-data:www-data /var/www/
@@ -121,7 +121,7 @@ RUN rm -rf /var/lib/apt/lists/*
 WORKDIR $PUBLIC_HTML
 
 EXPOSE 9000
-
-HEALTHCHECK CMD fpm-status || exit 1
+STOPSIGNAL SIGQUIT
 
 ENTRYPOINT ["entrypoint-php"]
+CMD ["php-fpm"]

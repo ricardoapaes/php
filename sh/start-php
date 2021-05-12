@@ -11,11 +11,23 @@ if [ -n "$DB_SEED" ] && [ "$DB_SEED" = "true" ]; then
 fi 
 
 if [ -n "${1}" ]; then
-    exec-cmd "$@"
-    run-event "cmd-executed"
+    if [ "${1}" = "cli" ]; then
+        CLI="true";
+        shift 1
+    fi
+
+    if [ "${CLI}" = "false" ] && [ "${1}" != "php-fpm" ]; then
+        exec-cmd "$@"
+        PHP_FPM_PARAMS="php-fpm"
+    fi
+else
+    PHP_FPM_PARAMS="$@"
 fi
 
 run-event "ready"
 
-echo "Iniciando PHP...";
-/usr/bin/supervisord -n -c ${PHP_CONFIG_PATH}supervisor.conf;
+if [ "${CLI}" = "false" ]; then
+    set -- start-php-fpm "${PHP_FPM_PARAMS}"
+fi
+
+exec "$@"

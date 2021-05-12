@@ -1,3 +1,4 @@
 vendor/
 auth.json
 temp/
+events.log
