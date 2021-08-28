@@ -88,6 +88,11 @@ if [ -n "$OPCACHE" ]; then
 	cat ${PHP_INI_OPCACHE};
 fi;
 
+if [ -n "$OPCACHE_PRELOAD"]; then
+	echo "opcache.preload=${OPCACHE_PRELOAD}" >> ${PHP_INI_OPCACHE}
+	echo "opcache.preload_user=${PHP_USER:-www-data}" >> ${PHP_INI_OPCACHE}
+fi
+
 if [ -n "$PHP_SLOWLOG" ]; then
 	echo "slowlog=/dev/stderr" >> ${PHP_FPM_CONFIG}
 	echo "request_slowlog_timeout=5s" >> ${PHP_FPM_CONFIG}
