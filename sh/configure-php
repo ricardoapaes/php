@@ -88,9 +88,18 @@ if [ -n "$OPCACHE" ]; then
 	cat ${PHP_INI_OPCACHE};
 fi;
 
-if [ -n "$OPCACHE_PRELOAD"]; then
+if [ -n "$OPCACHE_PRELOAD" ]; then
+	if [ ! -f "$OPCACHE_PRELOAD" ]; then
+		echo "<?php" > ${OPCACHE_PRELOAD}
+	fi
+
 	echo "opcache.preload=${OPCACHE_PRELOAD}" >> ${PHP_INI_OPCACHE}
 	echo "opcache.preload_user=${PHP_USER:-www-data}" >> ${PHP_INI_OPCACHE}
+fi
+
+if [ -n "$JIT" ]; then
+	echo "opcache.jit=${JIT_CRTO:-1255}" >> ${PHP_INI_OPCACHE}
+	echo "opcache.jit_buffer_size=${JIT_BUFFER_SIZE:-100M}" >> ${PHP_INI_OPCACHE}
 fi
 
 if [ -n "$PHP_SLOWLOG" ]; then

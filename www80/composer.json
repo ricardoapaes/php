@@ -12,7 +12,8 @@
     "ext-pdo": "*",
     "robmorgan/phinx": "^0.12.4",
     "symfony/yaml": "^5.1",
-    "like/gateway-pagamento": "^1.0"
+    "like/gateway-pagamento": "^1.0",
+    "darkghosthunter/preloader": "^2.2"
   },
   "scripts": {
     "migrate": "phinx migrate",
