@@ -56,7 +56,8 @@ jobs:
           LOGS_FILE="www${PHP_VERSION}/events.log";
 
           if [ ! -f "$LOGS_FILE" ]; then
-            echo "Arquivo de logs não existe.";
+            echo "Arquivo de logs não existe. >> ${LOGS_FILE}";
+            ls -la "www${PHP_VERSION}/";
             exit 2;
           fi
 
