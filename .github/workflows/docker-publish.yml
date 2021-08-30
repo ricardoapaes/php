@@ -32,7 +32,7 @@ jobs:
           echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
           echo "VERSAO=${PHP_VERSION}-dev" >> .env
           ln -s www73 www74
-          ln -s www80 www80
+          ln -s www80 www81
 
       - name: Run tests
         env:
