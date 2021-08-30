@@ -53,7 +53,14 @@ jobs:
             exit 1;
           fi
 
-          LOGS=$(cat www${PHP_VERSION}/events.log);
+          LOGS_FILE="www${PHP_VERSION}/events.log";
+
+          if [ ! -f "$LOGS_FILE" ]; then
+            echo "Arquivo de logs não existe.";
+            exit 2;
+          fi
+
+          LOGS=$(cat $LOGS_FILE);
           echo "EVENTS LOG: ${LOGS}";
           if [[ ! $LOGS =~ "started" ]]; then exit 10; fi
           if [[ ! $LOGS =~ "src-copied" ]]; then exit 11; fi
