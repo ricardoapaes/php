@@ -1,4 +1,4 @@
-name: PHP 7.4
+name: Test and Publish
 
 on:
   push:
@@ -13,26 +13,34 @@ on:
 jobs:
   
   test:
+    strategy:
+      matrix:
+        PHP: [56, 73, 74, 80, 81]
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Prepare code
+        env:
+          PHP_VERSION: ${{ matrix.PHP }}
         run: |
           touch .env
           echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> .env
           echo "CODECOMMIT_HOST=${{ secrets.CODECOMMIT_HOST }}" >> .env
           echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
           echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
-          echo "VERSAO=74-dev" >> .env
+          echo "VERSAO=${PHP_VERSION}-dev" >> .env
+          ln -s www73 www74
+          ln -s www80 www81
 
       - name: Run tests
+        env:
+          PHP_VERSION: ${{ matrix.PHP }}
         run: |
           docker pull likesistemas/php -a
 
-          docker-compose -f docker-compose-74.yml up --build -d
-
+          docker-compose -f docker-compose-${PHP_VERSION}.yml up --build -d
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
@@ -42,12 +50,20 @@ jobs:
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "Like Sistemas|123|74" ]; then
+          if [ "${CONTENT}" != "Like Sistemas|123|${PHP_VERSION}" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
 
-          LOGS=$(cat www73/events.log);
+          LOGS_FILE="www${PHP_VERSION}/events.log";
+
+          if [ ! -f "$LOGS_FILE" ]; then
+            echo "Arquivo de logs não existe. >> ${LOGS_FILE}";
+            ls -la "www${PHP_VERSION}/";
+            exit 2;
+          fi
+
+          LOGS=$(cat $LOGS_FILE);
           echo "EVENTS LOG: ${LOGS}";
           if [[ ! $LOGS =~ "started" ]]; then exit 10; fi
           if [[ ! $LOGS =~ "src-copied" ]]; then exit 11; fi
@@ -59,8 +75,10 @@ jobs:
           if [[ ! $LOGS =~ "ready" ]]; then exit 17; fi
 
       - name: Run tests prod
+        env:
+          PHP_VERSION: ${{ matrix.PHP }}
         run: |
-          docker-compose -f docker-compose-74.yml -f docker-compose.prod.yml up --build -d
+          docker-compose -f docker-compose-${PHP_VERSION}.yml -f docker-compose.prod.yml up --build -d
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
@@ -69,20 +87,26 @@ jobs:
           CONTENT=$(curl -s "http://127.0.0.1/");
           echo "CHAMADA HTTP: ${CONTENT}";
 
-          if [ "${CONTENT}" != "74" ]; then
+          if [ "${CONTENT}" != "${PHP_VERSION}" ]; then
             echo "Chamada HTTP retornou errado: ${CONTENT}"
             exit 1;
           fi
 
       - name: Run tests cli
+        env:
+          PHP_VERSION: ${{ matrix.PHP }}
         run: |
-          CLI_RETURN=$(docker run -e CLI=true likesistemas/php:74-dev php -r "echo 'cmd=lk';");
+          CLI_RETURN=$(docker run -e CLI=true likesistemas/php:${PHP_VERSION}-dev php -r "echo 'cmd=lk';");
           echo "CLI: ${CLI_RETURN}";
 
           if [[ ! $CLI_RETURN =~ "cmd=lk" ]]; then
             echo "Chamada CLI retornou errado: ${CLI_RETURN}"
             exit 1;
           fi
+
+      - name: Run k6
+        run: |
+          docker-compose -f docker-compose.k6.yml up
 
   push:
     needs: test
@@ -95,14 +119,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
 
       - name: Login to DockerHub
         uses: docker/login-action@v1 
@@ -117,14 +133,38 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
       
-      - name: Build and push
+      - name: PHP 5.6 -> Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile-56
+          push: true
+          tags: |
+            likesistemas/php:56
+            likesistemas/php:5.6
+            ghcr.io/likesistemas/php:56
+            ghcr.io/likesistemas/php:5.6
+
+      - name: PHP 7.3 -> Build and push 
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile-73
+          push: true
+          tags: |
+            likesistemas/php:latest
+            likesistemas/php:73
+            likesistemas/php:7.3
+            ghcr.io/likesistemas/php:latest
+            ghcr.io/likesistemas/php:73
+            ghcr.io/likesistemas/php:7.3
+
+      - name: PHP 7.4 -> Build and push 
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile-80
           push: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |
             PHP_VERSION=7.4-fpm
           tags: |
@@ -132,3 +172,29 @@ jobs:
             likesistemas/php:7.4
             ghcr.io/likesistemas/php:74
             ghcr.io/likesistemas/php:7.4
+
+      - name: PHP 8.0 -> Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile-80
+          push: true
+          tags: |
+            likesistemas/php:80
+            likesistemas/php:8.0
+            ghcr.io/likesistemas/php:80
+            ghcr.io/likesistemas/php:8.0
+
+      - name: PHP 8.1 -> Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile-80
+          push: true
+          build-args: |
+            PHP_VERSION=8.1-rc-fpm
+          tags: |
+            likesistemas/php:81
+            likesistemas/php:8.1
+            ghcr.io/likesistemas/php:81
+            ghcr.io/likesistemas/php:8.1

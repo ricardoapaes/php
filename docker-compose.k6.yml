@@ -1,0 +1,16 @@
+version: '3.5'
+networks:
+  php:
+    name: php
+    driver: bridge
+
+services:
+
+  k6:
+    image: loadimpact/k6:latest
+    working_dir: /k6/
+    command: run --vus 50 --duration 10s -e URL=http://nginx/ index.js
+    volumes: 
+      - ./k6/:/k6/
+    networks:
+      - php
