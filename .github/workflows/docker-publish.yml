@@ -147,6 +147,7 @@ jobs:
       #       ghcr.io/likesistemas/php:5.6
 
       - name: PHP 7.3 -> Build and push 
+        continue-on-error: true
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -156,11 +157,12 @@ jobs:
             likesistemas/php:latest
             likesistemas/php:73
             likesistemas/php:7.3
-            ghcr.io/likesistemas/php:latest
-            ghcr.io/likesistemas/php:73
-            ghcr.io/likesistemas/php:7.3
+          # ghcr.io/likesistemas/php:latest
+          # ghcr.io/likesistemas/php:73
+          # ghcr.io/likesistemas/php:7.3
 
       - name: PHP 7.4 -> Build and push 
+        continue-on-error: true
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -171,10 +173,11 @@ jobs:
           tags: |
             likesistemas/php:74
             likesistemas/php:7.4
-            ghcr.io/likesistemas/php:74
-            ghcr.io/likesistemas/php:7.4
+          # ghcr.io/likesistemas/php:74
+          # ghcr.io/likesistemas/php:7.4
 
       - name: PHP 8.0 -> Build and push
+        continue-on-error: true
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -183,10 +186,11 @@ jobs:
           tags: |
             likesistemas/php:80
             likesistemas/php:8.0
-            ghcr.io/likesistemas/php:80
-            ghcr.io/likesistemas/php:8.0
+          # ghcr.io/likesistemas/php:80
+          # ghcr.io/likesistemas/php:8.0
 
       - name: PHP 8.1 -> Build and push
+        continue-on-error: true
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -197,10 +201,11 @@ jobs:
           tags: |
             likesistemas/php:81
             likesistemas/php:8.1
-            ghcr.io/likesistemas/php:81
-            ghcr.io/likesistemas/php:8.1
+          # ghcr.io/likesistemas/php:81
+          # ghcr.io/likesistemas/php:8.1
 
       - name: PHP 8.2 -> Build and push
+        continue-on-error: true
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -211,5 +216,5 @@ jobs:
           tags: |
             likesistemas/php:82
             likesistemas/php:8.2
-            ghcr.io/likesistemas/php:82
-            ghcr.io/likesistemas/php:8.2
+          # ghcr.io/likesistemas/php:82
+          # ghcr.io/likesistemas/php:8.2
