@@ -1,8 +1,7 @@
 FROM php:5.6-fpm
 
-RUN rm /etc/apt/sources.list \
- && echo "deb http://archive.debian.org stretch main" > /etc/apt/sources.list \
- && echo "deb http://archive.debian.org/debian-security stretch/updates main" > /etc/apt/sources.list
+RUN sed -i s/stretch/buster/g /etc/apt/sources.list \
+ && apt-get --allow-unauthenticated update && apt-get --allow-unauthenticated upgrade
 
 RUN apt-get update && apt-get install -y \
     zlib1g-dev \
@@ -12,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libicu-dev g++ \
     libxml2-dev \
-    mysql-client \
+    mariadb-client \
     crudini \
     fcgiwrap
 
