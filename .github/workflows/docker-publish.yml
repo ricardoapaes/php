@@ -34,6 +34,7 @@ jobs:
           ln -s www73 www74
           ln -s www80 www81
           ln -s www80 www82
+          ln -s www80 www83
 
       - name: Run tests
         env:
@@ -231,5 +232,5 @@ jobs:
           tags: |
             likesistemas/php:83
             likesistemas/php:8.3
-          # ghcr.io/likesistemas/php:82
-          # ghcr.io/likesistemas/php:8.2
+          # ghcr.io/likesistemas/php:83
+          # ghcr.io/likesistemas/php:8.3
