@@ -5,7 +5,7 @@ if [ -x "$(command -v xcomposer)" ]; then
     exit 0;
 fi
 
-apt update && apt install -y git unzip
+apt-get update && apt-get install -y git unzip
 rm -rf /var/lib/apt/lists/*
 
 export COMPOSER_ALLOW_SUPERUSER=1
