@@ -228,7 +228,7 @@ jobs:
           file: ./Dockerfile-80
           push: true
           build-args: |
-            PHP_VERSION=8.3-rc-fpm
+            PHP_VERSION=8.3-fpm
           tags: |
             likesistemas/php:83
             likesistemas/php:8.3
