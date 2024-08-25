@@ -42,7 +42,7 @@ jobs:
         run: |
           docker pull likesistemas/php -a
 
-          docker-compose -f docker-compose-${PHP_VERSION}.yml up --build -d
+          docker compose -f docker-compose-${PHP_VERSION}.yml up --build -d
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
@@ -80,7 +80,7 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.PHP }}
         run: |
-          docker-compose -f docker-compose-${PHP_VERSION}.yml -f docker-compose.prod.yml up --build -d
+          docker compose -f docker-compose-${PHP_VERSION}.yml -f docker-compose.prod.yml up --build -d
           echo $(docker run -t --network php jwilder/dockerize -wait http://php_nginx/ -timeout 60s)
 
           docker ps -a
@@ -108,7 +108,7 @@ jobs:
 
       - name: Run k6
         run: |
-          docker-compose -f docker-compose.k6.yml up
+          docker compose -f docker-compose.k6.yml up
 
   push:
     needs: test
