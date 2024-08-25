@@ -75,6 +75,11 @@ RUN apt-get update && apt-get install -y wget \
  && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
  && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+# CONFIGURANDO OPENSSL LEGACY
+COPY sh/configure-openssl-legacy /usr/local/bin/configure-openssl-legacy
+RUN chmod +x /usr/local/bin/configure-openssl-legacy
+RUN configure-openssl-legacy
+
 # INSTALANDO SUDO
 RUN apt-get update && apt-get install -y sudo
 RUN echo "www-data:www-data" | chpasswd && adduser www-data sudo
